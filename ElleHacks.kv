@@ -1,0 +1,155 @@
+<WelcomeScreen>:
+    name: "welcome"
+    canvas.before:
+        Color:
+            rgba: (0.24, 0.71, 0.54, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: "vertical"
+
+        Image:
+            id: logo
+            source: 'RE-FARBIC.png'
+            allow_stretch: False
+            size_hint: (.5, .5)
+            pos_hint: {'center_x':.5, 'center_y':.7}
+        Button:
+            text: 'Start'
+            color: (0, 0, 0, 1)
+            size_hint: (.15, .05)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            background_normal: ''
+            background_color: (0.72, 0.92, 0.74, 1)
+            on_press: root.manager.current = 'home'
+
+<HomeScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Re-Fabric'
+            font_size: 30
+
+        Label:
+            text: 'Welcome to your journey in becoming fashionably sustainable.\nGive your clothes a new life by selecting an option below'
+
+        Label:
+            text: "Take a picture of an article of clothing and we'll give you suggestions on what to do with it:"
+
+        FloatLayout:
+            Button:
+                text: 'Take a Picture'
+                color: (0, 0, 0, 1)
+                size_hint:(0.5, 0.4)
+                pos_hint: {'center_x': .5, 'center_y': .7}
+                background_normal: ''
+                background_color: (0.72, 0.92, 0.74, 1)
+                on_press: root.manager.current = 'picture'
+        Label:
+            text: 'Find a clothing donation centre close to an address of your choice:'
+
+        FloatLayout:
+            Button:
+                text: 'Find Donation Location'
+                color: (0, 0, 0, 1)
+                size_hint:(0.5, 0.4)
+                pos_hint: {'center_x': .5, 'center_y': .3}
+                background_normal: ''
+                background_color: (0.72, 0.92, 0.74, 1)
+                on_press: root.manager.current = 'directory'
+
+
+<PictureScreen>
+    BoxLayout:
+        spacing: 10
+        orientation: 'vertical'
+        Label:
+            text: 'Upload a picture or take a new photo'
+            text_size: self.size
+            size_hint_y: None
+            height: '48 dp'
+            pos_hint: {'center_x': .5, 'center_y': .9}
+            size: self.texture_size
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            allow_stretch: True
+            keep_ratio: True
+            play: True
+        Button:
+            text: 'Capture'
+            color: (0, 0, 0, 1)
+            size_hint_y: None
+            size_hint_x: 0.5
+            height: '48 dp'
+            background_normal: ''
+            background_color: (0.72, 0.92, 0.74, 1)
+            on_press: root.capture()
+        Button:
+            text: 'Home'
+            color: (0, 0, 0, 1)
+            size_hint_y: None
+            size_hint_x: 0.5
+            height: '48 dp'
+            background_normal: ''
+            background_color: (0.72, 0.92, 0.74, 1)
+            on_press: root.manager.current = 'home'
+
+<DonationScreen>
+    name: "directory"
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'Home'
+            color: (0, 0, 0, 1)
+            size_hint: (.1, .1)
+            pos_hint: {'top': 1, 'left': 1}
+            background_normal: ''
+            background_color: (0.72, 0.92, 0.74, 1)
+            on_press: root.manager.current = 'home'
+        Label:
+            text: "Let's find a place to donate your items!\nEnter your city/address below:"
+            font_size: 20
+        TextInput:
+            id: address
+            size_hint: (.5, .15)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+        Button:
+            text: 'Enter'
+            color: (0, 0, 0, 1)
+            size_hint: (.15, .15)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            background_normal: ''
+            background_color: (0.72, 0.92, 0.74, 1)
+            on_press:
+                root.search_address()
+                root.manager.current = 'display'
+
+
+<DisplayScreen>
+    name: 'display'
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: "Back"
+            color: (0, 0, 0, 1)
+            size_hint: (.1, .1)
+            background_normal: ''
+            background_color: (0.72, 0.92, 0.74, 1)
+            on_press: root.manager.current = 'directory'
+        Label:
+            id: results
+
+
+<RootWidget>:
+    WelcomeScreen:
+        name: 'welcome'
+    HomeScreen:
+        name: 'home'
+    DonationScreen:
+        name: 'directory'
+    DisplayScreen:
+        name: 'display'
+    PictureScreen:
+        name: 'picture'
